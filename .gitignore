@@ -1,0 +1,21 @@
+# BẢO MẬT: Chặn tất cả các file chứa API Key (kể cả trong thư mục con)
+.env
+*.env
+**/.env
+tools_and_tests/.env
+
+# Chặn Cơ sở dữ liệu Vector & File PDF nặng (Tránh vượt quá dung lượng GitHub)
+chroma_db/
+**/chroma_db/
+data/chroma_db/
+*.sqlite3
+*.pdf
+data/*.pdf
+
+# Bộ nhớ tạm Python & Môi trường
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+.vscode/
