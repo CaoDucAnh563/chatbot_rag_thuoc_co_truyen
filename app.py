@@ -36,11 +36,21 @@ load_dotenv(dotenv_path=env_path)
 
 @st.cache_resource
 def load_gemini_client():
-    api_key = os.getenv("GOOGLE_API_KEY")
+    api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
     if not api_key:
-        st.error("Chưa tìm thấy GOOGLE_API_KEY trong file .env!")
+        try:
+            api_key = st.secrets.get("GOOGLE_API_KEY") or st.secrets.get("GEMINI_API_KEY")
+        except Exception:
+            api_key = None
+
+    if not api_key:
+        st.error("Chưa tìm thấy GOOGLE_API_KEY hoặc GEMINI_API_KEY trong .env hoặc Streamlit Secrets!")
         st.stop()
-    return genai.Client(api_key=api_key)
+
+    return genai.Client(
+        api_key=api_key,
+        http_options=types.HttpOptions(api_version="v1beta")
+    )
 
 @st.cache_resource
 def load_chroma_collection():
@@ -191,7 +201,7 @@ if user_input := st.chat_input("Nhập câu hỏi về bài thuốc, vị thuố
         with st.status("Đang truy vấn CSDL & Xử lý câu trả lời...", expanded=False) as status:
             standalone_query = generate_standalone_query(st.session_state.messages[:-1], user_input)
             if standalone_query != user_input and len(st.session_state.messages) > 1:
-                st.write(f"Viết lại câu hỏi:{standalone_query}")
+                st.write(f"Viết lại câu hỏi: {standalone_query}")
 
             docs, metas = search_and_rerank(
                 query_text=standalone_query,
