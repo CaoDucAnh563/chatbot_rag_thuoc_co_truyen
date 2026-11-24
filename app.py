@@ -21,12 +21,13 @@ st.markdown("""
         margin-bottom: 10px;
     }
     .source-card {
-        background-color: #f8f9fa;
+        background-color: rgba(46, 125, 50, 0.12);
         border-left: 4px solid #2e7d32;
         padding: 10px 15px;
         margin-bottom: 8px;
         border-radius: 4px;
         font-size: 0.9em;
+        color: inherit;
     }
 </style>
 """, unsafe_allow_html=True)
