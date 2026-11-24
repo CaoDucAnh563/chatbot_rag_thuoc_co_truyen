@@ -4,11 +4,7 @@
 **/.env
 tools_and_tests/.env
 
-# Chặn Cơ sở dữ liệu Vector & File PDF nặng (Tránh vượt quá dung lượng GitHub)
-chroma_db/
-**/chroma_db/
-data/chroma_db/
-*.sqlite3
+# Chặn File PDF nặng (Tránh vượt quá dung lượng GitHub)
 *.pdf
 data/*.pdf
 
